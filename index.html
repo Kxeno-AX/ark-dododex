@@ -1,1 +1,987 @@
-<h1>Hello World Wide Web!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dododex | ARK Taming Calculator | ARK: Survival Ascended &amp; Evolved</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+    }
+
+    :root {
+      --bg-deep: #121417;
+      --bg-panel: #1b1f24;
+      --bg-panel-light: #232830;
+      --accent-orange: #e8943a;
+      --accent-orange-glow: #ffb45c;
+      --accent-teal: #4dd0c1;
+      --accent-red: #e05a5a;
+      --text-primary: #e8ecf1;
+      --text-secondary: #a0aab8;
+      --text-muted: #6b7683;
+      --border-dim: #2e353f;
+      --shadow: 0 10px 25px rgba(0,0,0,0.55);
+      --radius: 14px;
+      --transition: all 0.2s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding: 1.5rem;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(232, 148, 58, 0.08) 0%, transparent 42%),
+        radial-gradient(circle at 88% 15%, rgba(77, 208, 193, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 20% 30%, #161a20 0%, #121417 80%);
+    }
+
+    /* ---------- STICKY HEADER ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(18, 20, 23, 0.82);
+      border-bottom: 1px solid var(--border-dim);
+      margin: -1.5rem -1.5rem 1.5rem;
+      padding: 0.7rem 1.5rem;
+    }
+
+    .site-header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent-orange);
+      font-size: 1.15rem;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .brand i {
+      font-size: 1.2rem;
+      filter: drop-shadow(0 0 8px rgba(232, 148, 58, 0.5));
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .header-search {
+      display: flex;
+      align-items: center;
+      background: #14181d;
+      border: 1px solid var(--border-dim);
+      border-radius: 40px;
+      padding: 0.35rem 0.35rem 0.35rem 1rem;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .header-search:focus-within {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 16px rgba(232, 148, 58, 0.2);
+    }
+
+    .header-search i { color: var(--text-muted); font-size: 0.85rem; }
+
+    .header-search input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      width: 180px;
+    }
+
+    .header-search input::placeholder { color: var(--text-muted); }
+
+    .header-search button {
+      background: var(--accent-orange);
+      color: #1a1000;
+      border: none;
+      border-radius: 40px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .header-search button:hover { background: var(--accent-orange-glow); }
+
+    .top-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: var(--transition);
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+    }
+
+    .top-link:hover { color: var(--accent-orange); background: rgba(232,148,58,0.08); }
+
+    .app {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ---------- HERO (calculator front and centre) ---------- */
+    .hero {
+      background: linear-gradient(145deg, #1a1f26, #14181d);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      border: 1px solid var(--border-dim);
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -8%;
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(232, 148, 58, 0.14) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      font-size: 2.3rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: #fff;
+      position: relative;
+      line-height: 1.25;
+    }
+
+    .hero h1 span { color: var(--accent-orange); }
+
+    .hero p {
+      color: var(--text-secondary);
+      max-width: 720px;
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .hero-sub {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .hero-sub i { color: var(--accent-teal); margin-right: 0.4rem; }
+
+    /* ---------- CALCULATOR CARD (the primary action) ---------- */
+    .calculator-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      position: relative;
+      border-top: 3px solid var(--accent-orange);
+    }
+
+    .calculator-card h2 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .calculator-card h2 i { color: var(--accent-orange); }
+
+    .calculator-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .calc-form {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    @media (max-width: 750px) { .calc-form { grid-template-columns: 1fr; } }
+
+    .calc-form input,
+    .calc-form select {
+      background: #12161b;
+      border: 1px solid var(--border-dim);
+      border-radius: 40px;
+      padding: 0.8rem 1.1rem;
+      color: var(--text-primary);
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    .calc-form input::placeholder { color: var(--text-muted); }
+
+    .calc-form input:focus,
+    .calc-form select:focus { border-color: var(--accent-orange); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--accent-orange);
+      color: #1a1000;
+      box-shadow: 0 0 20px rgba(232, 148, 58, 0.35);
+    }
+
+    .btn-primary:hover { background: var(--accent-orange-glow); box-shadow: 0 0 28px rgba(232, 148, 58, 0.6); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent-orange);
+      border-color: var(--accent-orange);
+    }
+
+    .btn-ghost:hover { background: rgba(232, 148, 58, 0.1); }
+
+    /* ---------- TRUST BAR (compressed social proof) ---------- */
+    .trust-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .trust-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.75rem;
+    }
+
+    .trust-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .trust-stat strong { color: #fff; font-size: 1rem; }
+
+    .trust-stat i { color: var(--accent-orange); font-size: 1rem; }
+
+    .trust-quote {
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      max-width: 380px;
+      border-left: 2px solid var(--accent-orange);
+      padding-left: 0.9rem;
+    }
+
+    .trust-quote span {
+      display: block;
+      font-style: normal;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ---------- SECTION TITLES ---------- */
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i { color: var(--accent-orange); }
+
+    /* ---------- CREATURE GRID ---------- */
+    .creature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .creature-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .creature-card:hover {
+      border-color: var(--accent-orange);
+      transform: translateY(-3px);
+      background: var(--bg-panel-light);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.5);
+    }
+
+    .creature-card .creature-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: rgba(232, 148, 58, 0.12);
+      color: var(--accent-orange);
+    }
+
+    .creature-card .creature-name {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .creature-card .creature-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+
+    .creature-card .creature-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(255,255,255,0.04);
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+    }
+
+    .creature-card .creature-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      background: rgba(232, 148, 58, 0.18);
+      color: var(--accent-orange);
+      border-radius: 30px;
+      padding: 0.15rem 0.7rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ---------- TIPS CARD GRID ---------- */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .tip-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .tip-card:hover {
+      border-color: var(--accent-teal);
+      background: var(--bg-panel-light);
+    }
+
+    .tip-card .tip-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tip-card .tip-score {
+      font-weight: 700;
+      color: var(--accent-orange);
+      font-size: 0.85rem;
+    }
+
+    .tip-card .tip-tags {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .tip-card .tip-tags span {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(77, 208, 193, 0.12);
+      color: var(--accent-teal);
+      padding: 0.15rem 0.55rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .tip-card p {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .tip-card .tip-foot {
+      margin-top: auto;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ---------- FEATURES (promoted from footnote) ---------- */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .feature-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent-orange);
+      background: var(--bg-panel-light);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: rgba(232, 148, 58, 0.12);
+      color: var(--accent-orange);
+      flex-shrink: 0;
+    }
+
+    .feature-card h3 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: #fff;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    /* ---------- DISCORD CTA ---------- */
+    .discord-cta {
+      background: linear-gradient(135deg, rgba(232, 148, 58, 0.12), rgba(77, 208, 193, 0.08));
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .discord-cta h3 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .discord-cta p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* ---------- ABOUT PARAGRAPH ---------- */
+    .about-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .about-panel h2 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent-orange);
+    }
+
+    .about-panel p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .site-footer {
+      margin-top: 3rem;
+      padding: 1.5rem 0 1rem;
+      border-top: 1px solid var(--border-dim);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .site-footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-right: 1.25rem;
+      transition: var(--transition);
+    }
+
+    .site-footer a:hover { color: var(--accent-orange); }
+
+    /* ---------- BACK TO TOP ---------- */
+    .back-to-top {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-orange);
+      color: #1a1000;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(232, 148, 58, 0.4);
+      transition: var(--transition);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .back-to-top.visible { opacity: 1; pointer-events: auto; }
+
+    .back-to-top:hover { background: var(--accent-orange-glow); transform: translateY(-3px); }
+
+    /* ---------- UTILS ---------- */
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== STICKY HEADER ========== -->
+  <div class="site-header">
+    <div class="site-header-inner">
+      <a href="#" class="brand"><i class="fas fa-dragon"></i> Dododex</a>
+      <div class="header-actions">
+        <div class="header-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search creatures...">
+          <button type="button">Go</button>
+        </div>
+        <a href="#calculator" class="top-link"><i class="fas fa-calculator"></i> Calculator</a>
+        <a href="#tips" class="top-link"><i class="fas fa-lightbulb"></i> Tips</a>
+        <a href="#features" class="top-link"><i class="fas fa-list-check"></i> Features</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+
+    <!-- ========== HERO ========== -->
+    <section class="hero">
+      <h1>The ARK taming calculator <span>used by over 12 million players.</span></h1>
+      <p>Knock-out estimates, torpor timers, starve timers, kibble recipes, breeding times, and 400,000+ community tips — for every creature in ARK: Survival Ascended and ARK: Survival Evolved.</p>
+      <div class="hero-sub">
+        <span><i class="fas fa-star"></i> 4.9-star rating</span>
+        <span><i class="fas fa-download"></i> 12M+ downloads</span>
+        <span><i class="fas fa-award"></i> Endorsed by Jeremy Stieglitz</span>
+        <span><i class="fas fa-lightbulb"></i> 400,000+ player tips</span>
+      </div>
+    </section>
+
+    <!-- ========== CALCULATOR CARD (primary action) ========== -->
+    <section class="calculator-card" id="calculator">
+      <h2><i class="fas fa-calculator"></i> Start Taming</h2>
+      <p>Pick a creature and get food, narcotics, and time estimates instantly.</p>
+      <form class="calc-form" onsubmit="event.preventDefault(); alert('Calculator would load the selected creature here.');">
+        <input type="text" placeholder="Search creature (e.g. Rex, Quetzal, Enigmasaur)..." required>
+        <select required>
+          <option value="">Select level...</option>
+          <option>Level 1–10</option>
+          <option>Level 11–50</option>
+          <option>Level 51–100</option>
+          <option>Level 100+</option>
+        </select>
+        <select required>
+          <option value="">Server type...</option>
+          <option>Official · Normal</option>
+          <option>Official · Hardcore</option>
+          <option>Unofficial · x2</option>
+          <option>Unofficial · x5</option>
+        </select>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-play"></i> Calculate</button>
+      </form>
+    </section>
+
+    <!-- ========== TRUST BAR (compressed social proof) ========== -->
+    <section class="trust-bar">
+      <div class="trust-stats">
+        <div class="trust-stat"><i class="fas fa-star"></i> <strong>4.9/5</strong> App Store</div>
+        <div class="trust-stat"><i class="fas fa-download"></i> <strong>12M+</strong> downloads</div>
+        <div class="trust-stat"><i class="fas fa-users"></i> <strong>180,000+</strong> raters</div>
+      </div>
+      <div class="trust-quote">
+        “The most comprehensive tool for taming and dinosaur information on Ark to date.”
+        <span>— Mabbdoom, App Store Review</span>
+      </div>
+    </section>
+
+    <!-- ========== CREATURE GRID ========== -->
+    <h2 class="section-title"><i class="fas fa-dragon"></i> Popular Creatures</h2>
+    <div class="creature-grid">
+      <div class="creature-card">
+        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
+        <div class="creature-name">Enigmasaur</div>
+        <div class="creature-meta">
+          <span><i class="fas fa-bolt"></i> Utility</span>
+          <span><i class="fas fa-egg"></i> Taming</span>
+        </div>
+        <div class="creature-footer">
+          <span><i class="fas fa-lightbulb"></i> 9 tips</span>
+          <span class="badge">New</span>
+        </div>
+      </div>
+      <div class="creature-card">
+        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
+        <div class="creature-name">Rex</div>
+        <div class="creature-meta">
+          <span><i class="fas fa-bolt"></i> Combat</span>
+          <span><i class="fas fa-egg"></i> Taming</span>
+        </div>
+        <div class="creature-footer">
+          <span><i class="fas fa-lightbulb"></i> 420 tips</span>
+        </div>
+      </div>
+      <div class="creature-card">
+        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
+        <div class="creature-name">Quetzal</div>
+        <div class="creature-meta">
+          <span><i class="fas fa-bolt"></i> Flyer</span>
+          <span><i class="fas fa-egg"></i> Taming</span>
+        </div>
+        <div class="creature-footer">
+          <span><i class="fas fa-lightbulb"></i> 310 tips</span>
+        </div>
+      </div>
+      <div class="creature-card">
+        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
+        <div class="creature-name">Giganotosaurus</div>
+        <div class="creature-meta">
+          <span><i class="fas fa-bolt"></i> Combat</span>
+          <span><i class="fas fa-egg"></i> Taming</span>
+        </div>
+        <div class="creature-footer">
+          <span><i class="fas fa-lightbulb"></i> 280 tips</span>
+        </div>
+      </div>
+      <div class="creature-card">
+        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
+        <div class="creature-name">Shadowmane</div>
+        <div class="creature-meta">
+          <span><i class="fas fa-bolt"></i> Combat</span>
+          <span><i class="fas fa-egg"></i> Taming</span>
+        </div>
+        <div class="creature-footer">
+          <span><i class="fas fa-lightbulb"></i> 195 tips</span>
+        </div>
+      </div>
+      <div class="creature-card">
+        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
+        <div class="creature-name">Desmodus</div>
+        <div class="creature-meta">
+          <span><i class="fas fa-bolt"></i> Utility</span>
+          <span><i class="fas fa-egg"></i> Taming</span>
+        </div>
+        <div class="creature-footer">
+          <span><i class="fas fa-lightbulb"></i> 240 tips</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TIPS CARD GRID ========== -->
+    <h2 class="section-title" id="tips"><i class="fas fa-lightbulb"></i> Player Tips</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-head">
+          <span class="tip-score">16 points</span>
+          <div class="tip-tags"><span>Utility</span><span>New</span></div>
+        </div>
+        <p>It can only store creatures to change into for approximately 1 hour [60 minutes].</p>
+        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head">
+          <span class="tip-score">15 points</span>
+          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
+        </div>
+        <p>Step-by-Step Taming Process — 1. Locate the Enigmasaur in Disguise. Find a wild Enigmasaur while it is actively mimicking another creature in the wild. 2. Identify the Mimicked…</p>
+        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head">
+          <span class="tip-score">11 points</span>
+          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
+        </div>
+        <p>Since this guy got a TLC the new taming method will be by crafting an apex offering at lvl 96 which is made out of alpha creatures trophies then approach a wild one with the apex offering in your…</p>
+        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head">
+          <span class="tip-score">10 points</span>
+          <div class="tip-tags"><span>Utility</span><span>New</span></div>
+        </div>
+        <p>Baby Enigmasaurs eat chitin, just like Synomacrops.</p>
+        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head">
+          <span class="tip-score">7 points</span>
+          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
+        </div>
+        <p>Highly recommend trapping in circle of gates. It is completely passive if there is no other members of the same species it transforms into even if it becomes a rex it'll be passive. If you…</p>
+        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head">
+          <span class="tip-score">6 points</span>
+          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
+        </div>
+        <p>Maps that have fewer species like scorched earth, lost colony and aberration so its pool of species to scan is less.</p>
+        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
+      </div>
+    </div>
+
+    <!-- ========== FEATURES (promoted) ========== -->
+    <h2 class="section-title" id="features"><i class="fas fa-list-check"></i> Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-calculator"></i></div>
+        <div>
+          <h3>Taming Calculator</h3>
+          <p>Knock-out estimates for all creatures in ARK: Survival Ascended and Evolved, including personal weapons list with custom damage.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-skull-crossbones"></i></div>
+        <div>
+          <h3>Chance of Death</h3>
+          <p>Probability that a creature will die rather than KO — a unique Dododex capability.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-stopwatch"></i></div>
+        <div>
+          <h3>Timers</h3>
+          <p>Starve timer and torpor timers, so you know exactly when to act.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <h3>Stats &amp; Rankings</h3>
+          <p>Creature stats, stat calculator, and stat rankings.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-star-half-alt"></i></div>
+        <div>
+          <h3>Gathering Efficiency</h3>
+          <p>Drops and weight reduction based on 2,600,000+ ratings from 180,000+ users.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-egg"></i></div>
+        <div>
+          <h3>Kibble &amp; Breeding</h3>
+          <p>Kibble recipes and chart, breeding times, and egg incubation temperatures.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-comments"></i></div>
+        <div>
+          <h3>Player Tips</h3>
+          <p>Strategy and taming tips from tens of thousands of ARK players.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-sliders-h"></i></div>
+        <div>
+          <h3>Server Multipliers</h3>
+          <p>Multipliers for unofficial servers, saddle details and crafting ingredients.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-dove"></i></div>
+        <div>
+          <h3>Flyers &amp; Traps</h3>
+          <p>List of flyers that can pick up each creature, traps, snares, and more.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== DISCORD CTA ========== -->
+    <section class="discord-cta">
+      <div>
+        <h3><i class="fas fa-discord" style="color: var(--accent-orange);"></i> Join the Community</h3>
+        <p>400,000+ player tips, taming strategies, and a thriving Discord of ARK survivors.</p>
+      </div>
+      <a href="#" class="btn btn-primary"><i class="fas fa-discord"></i> Join Us On Discord</a>
+    </section>
+
+    <!-- ========== ABOUT ========== -->
+    <section class="about-panel">
+      <h2>What's an ARK taming calculator?</h2>
+      <p>A taming calculator lets you estimate how much food, narcotics, and time will be required to tame a creature in ARK: Survival Evolved.</p>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+      <div>
+        <a href="#calculator">Calculator</a>
+        <a href="#tips">Tips</a>
+        <a href="#features">Features</a>
+        <a href="#">App Store</a>
+        <a href="#">Google Play</a>
+        <a href="#">Discord</a>
+      </div>
+      <div>© 2025 Dododex · The ARK taming calculator and companion app</div>
+    </footer>
+
+  </div>
+
+  <!-- ========== BACK TO TOP ========== -->
+  <button class="back-to-top" id="backToTop" title="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Back-to-top visibility
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 400) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+    backToTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
