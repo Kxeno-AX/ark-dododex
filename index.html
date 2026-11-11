@@ -51,7 +51,7 @@
       z-index: 100;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      background: rgba(18, 20, 23, 0.82);
+      background: rgba(18, 20, 23, 0.9);
       border-bottom: 1px solid var(--border-dim);
       margin: -1.5rem -1.5rem 1.5rem;
       padding: 0.7rem 1.5rem;
@@ -77,6 +77,9 @@
       font-size: 1.15rem;
       text-decoration: none;
       text-transform: uppercase;
+      cursor: pointer;
+      background: none;
+      border: none;
     }
 
     .brand i {
@@ -144,16 +147,30 @@
       transition: var(--transition);
       padding: 0.4rem 0.6rem;
       border-radius: 8px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
     }
 
-    .top-link:hover { color: var(--accent-orange); background: rgba(232,148,58,0.08); }
+    .top-link:hover,
+    .top-link.active { color: var(--accent-orange); background: rgba(232,148,58,0.08); }
 
     .app {
       max-width: 1400px;
       margin: 0 auto;
     }
 
-    /* ---------- HERO (calculator front and centre) ---------- */
+    /* ---------- PAGES ---------- */
+    .page { display: none; animation: fadeIn 0.25s ease; }
+    .page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- HERO ---------- */
     .hero {
       background: linear-gradient(145deg, #1a1f26, #14181d);
       border-radius: var(--radius);
@@ -208,7 +225,7 @@
 
     .hero-sub i { color: var(--accent-teal); margin-right: 0.4rem; }
 
-    /* ---------- CALCULATOR CARD (the primary action) ---------- */
+    /* ---------- CALCULATOR CARD ---------- */
     .calculator-card {
       background: var(--bg-panel);
       border: 1px solid var(--border-dim);
@@ -277,6 +294,7 @@
       cursor: pointer;
       transition: var(--transition);
       border: 1px solid transparent;
+      font-family: inherit;
     }
 
     .btn-primary {
@@ -295,7 +313,15 @@
 
     .btn-ghost:hover { background: rgba(232, 148, 58, 0.1); }
 
-    /* ---------- TRUST BAR (compressed social proof) ---------- */
+    .btn-teal {
+      background: transparent;
+      color: var(--accent-teal);
+      border-color: var(--accent-teal);
+    }
+
+    .btn-teal:hover { background: rgba(77, 208, 193, 0.1); }
+
+    /* ---------- TRUST BAR ---------- */
     .trust-bar {
       display: flex;
       flex-wrap: wrap;
@@ -310,11 +336,7 @@
       box-shadow: var(--shadow);
     }
 
-    .trust-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.75rem;
-    }
+    .trust-stats { display: flex; flex-wrap: wrap; gap: 1.75rem; }
 
     .trust-stat {
       display: flex;
@@ -355,9 +377,16 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .section-title i { color: var(--accent-orange); }
+
+    .section-title .count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
 
     /* ---------- CREATURE GRID ---------- */
     .creature-grid {
@@ -378,6 +407,10 @@
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
+      text-align: left;
+      font-family: inherit;
+      color: inherit;
+      width: 100%;
     }
 
     .creature-card:hover {
@@ -444,7 +477,37 @@
       letter-spacing: 0.5px;
     }
 
-    /* ---------- TIPS CARD GRID ---------- */
+    /* ---------- FILTER BAR ---------- */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      color: var(--text-secondary);
+      padding: 0.45rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .filter-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
+
+    .filter-btn.active {
+      background: var(--accent-orange);
+      color: #1a1000;
+      border-color: var(--accent-orange);
+      font-weight: 700;
+    }
+
+    /* ---------- TIPS GRID ---------- */
     .tips-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -464,10 +527,7 @@
       gap: 0.6rem;
     }
 
-    .tip-card:hover {
-      border-color: var(--accent-teal);
-      background: var(--bg-panel-light);
-    }
+    .tip-card:hover { border-color: var(--accent-teal); background: var(--bg-panel-light); }
 
     .tip-card .tip-head {
       display: flex;
@@ -483,11 +543,7 @@
       font-size: 0.85rem;
     }
 
-    .tip-card .tip-tags {
-      display: flex;
-      gap: 0.35rem;
-      flex-wrap: wrap;
-    }
+    .tip-card .tip-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
 
     .tip-card .tip-tags span {
       font-size: 0.68rem;
@@ -514,9 +570,34 @@
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    /* ---------- FEATURES (promoted from footnote) ---------- */
+    .tip-vote {
+      background: transparent;
+      border: 1px solid var(--border-dim);
+      color: var(--text-secondary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .tip-vote:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+    .tip-vote.voted {
+      background: rgba(232, 148, 58, 0.15);
+      border-color: var(--accent-orange);
+      color: var(--accent-orange);
+    }
+
+    /* ---------- FEATURES GRID ---------- */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -536,10 +617,7 @@
       transition: var(--transition);
     }
 
-    .feature-card:hover {
-      border-color: var(--accent-orange);
-      background: var(--bg-panel-light);
-    }
+    .feature-card:hover { border-color: var(--accent-orange); background: var(--bg-panel-light); }
 
     .feature-icon {
       width: 44px;
@@ -582,18 +660,10 @@
       box-shadow: var(--shadow);
     }
 
-    .discord-cta h3 {
-      font-weight: 600;
-      font-size: 1.2rem;
-      margin-bottom: 0.2rem;
-    }
+    .discord-cta h3 { font-weight: 600; font-size: 1.2rem; margin-bottom: 0.2rem; }
+    .discord-cta p { color: var(--text-secondary); font-size: 0.9rem; }
 
-    .discord-cta p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    /* ---------- ABOUT PARAGRAPH ---------- */
+    /* ---------- ABOUT ---------- */
     .about-panel {
       background: var(--bg-panel);
       border: 1px solid var(--border-dim);
@@ -610,10 +680,229 @@
       color: var(--accent-orange);
     }
 
-    .about-panel p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
+    .about-panel p { color: var(--text-secondary); font-size: 0.95rem; }
+
+    /* ---------- CREATURE DETAIL PAGE ---------- */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-orange);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
     }
+
+    .back-link:hover { color: var(--accent-orange-glow); }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 900px) { .detail-layout { grid-template-columns: 1fr; } }
+
+    .detail-main {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .detail-main h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .detail-main .detail-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .detail-main .detail-tags span {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(232, 148, 58, 0.15);
+      color: var(--accent-orange);
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .detail-main p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem; }
+
+    .stat-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.88rem;
+    }
+
+    .stat-table th {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-dim);
+    }
+
+    .stat-table td {
+      padding: 0.6rem 0.75rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .stat-table td:first-child { color: var(--text-primary); font-weight: 600; }
+
+    .detail-side {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border-top: 3px solid var(--accent-teal);
+      height: fit-content;
+    }
+
+    .detail-side h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      color: var(--accent-teal);
+    }
+
+    .detail-side .side-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.85rem;
+    }
+
+    .detail-side .side-row span:first-child { color: var(--text-muted); }
+    .detail-side .side-row span:last-child { color: var(--text-primary); font-weight: 600; }
+
+    /* ---------- CALCULATOR RESULT ---------- */
+    .calc-result {
+      margin-top: 1.25rem;
+      background: #12161b;
+      border: 1px solid var(--accent-teal);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: none;
+    }
+
+    .calc-result.visible { display: block; }
+
+    .calc-result h3 {
+      color: var(--accent-teal);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .calc-result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .calc-result-item {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-dim);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+    }
+
+    .calc-result-item .label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .calc-result-item .value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent-orange);
+    }
+
+    /* ---------- TOAST / COMING SOON ---------- */
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--bg-panel-light);
+      border: 1px solid var(--accent-orange);
+      color: var(--text-primary);
+      padding: 0.85rem 1.5rem;
+      border-radius: 40px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      animation: toastIn 0.3s ease;
+      pointer-events: auto;
+      max-width: 90vw;
+    }
+
+    .toast i { color: var(--accent-orange); }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- EMPTY STATE ---------- */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--text-muted);
+      background: var(--bg-panel);
+      border: 1px dashed var(--border-dim);
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+    }
+
+    .empty-state i { font-size: 2.5rem; color: var(--border-dim); margin-bottom: 1rem; }
+    .empty-state h3 { color: var(--text-secondary); font-weight: 600; margin-bottom: 0.4rem; }
+    .empty-state p { font-size: 0.9rem; }
 
     /* ---------- FOOTER ---------- */
     .site-footer {
@@ -634,6 +923,7 @@
       text-decoration: none;
       margin-right: 1.25rem;
       transition: var(--transition);
+      cursor: pointer;
     }
 
     .site-footer a:hover { color: var(--accent-orange); }
@@ -662,11 +952,9 @@
     }
 
     .back-to-top.visible { opacity: 1; pointer-events: auto; }
-
     .back-to-top:hover { background: var(--accent-orange-glow); transform: translateY(-3px); }
 
-    /* ---------- UTILS ---------- */
-    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
     .mt-3 { margin-top: 1.5rem; }
     .mb-2 { margin-bottom: 1rem; }
   </style>
@@ -676,288 +964,188 @@
   <!-- ========== STICKY HEADER ========== -->
   <div class="site-header">
     <div class="site-header-inner">
-      <a href="#" class="brand"><i class="fas fa-dragon"></i> Dododex</a>
+      <button class="brand" onclick="navigate('home')"><i class="fas fa-dragon"></i> Dododex</button>
       <div class="header-actions">
         <div class="header-search">
           <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search creatures...">
-          <button type="button">Go</button>
+          <input type="text" id="globalSearch" placeholder="Search creatures...">
+          <button type="button" onclick="doGlobalSearch()">Go</button>
         </div>
-        <a href="#calculator" class="top-link"><i class="fas fa-calculator"></i> Calculator</a>
-        <a href="#tips" class="top-link"><i class="fas fa-lightbulb"></i> Tips</a>
-        <a href="#features" class="top-link"><i class="fas fa-list-check"></i> Features</a>
+        <button class="top-link" data-nav="creatures" onclick="navigate('creatures')"><i class="fas fa-dragon"></i> Creatures</button>
+        <button class="top-link" data-nav="tips" onclick="navigate('tips')"><i class="fas fa-lightbulb"></i> Tips</button>
+        <button class="top-link" data-nav="features" onclick="navigate('features')"><i class="fas fa-list-check"></i> Features</button>
+        <button class="top-link" data-nav="tools" onclick="navigate('tools')"><i class="fas fa-tools"></i> Tools</button>
       </div>
     </div>
   </div>
 
   <div class="app">
 
-    <!-- ========== HERO ========== -->
-    <section class="hero">
-      <h1>The ARK taming calculator <span>used by over 12 million players.</span></h1>
-      <p>Knock-out estimates, torpor timers, starve timers, kibble recipes, breeding times, and 400,000+ community tips — for every creature in ARK: Survival Ascended and ARK: Survival Evolved.</p>
-      <div class="hero-sub">
-        <span><i class="fas fa-star"></i> 4.9-star rating</span>
-        <span><i class="fas fa-download"></i> 12M+ downloads</span>
-        <span><i class="fas fa-award"></i> Endorsed by Jeremy Stieglitz</span>
-        <span><i class="fas fa-lightbulb"></i> 400,000+ player tips</span>
+    <!-- ================================================================
+         PAGE: HOME
+         ================================================================ -->
+    <section id="page-home" class="page active">
+
+      <section class="hero">
+        <h1>The ARK taming calculator <span>used by over 12 million players.</span></h1>
+        <p>Knock-out estimates, torpor timers, starve timers, kibble recipes, breeding times, and 400,000+ community tips — for every creature in ARK: Survival Ascended and ARK: Survival Evolved.</p>
+        <div class="hero-sub">
+          <span><i class="fas fa-star"></i> 4.9-star rating</span>
+          <span><i class="fas fa-download"></i> 12M+ downloads</span>
+          <span><i class="fas fa-award"></i> Endorsed by Jeremy Stieglitz</span>
+          <span><i class="fas fa-lightbulb"></i> 400,000+ player tips</span>
+        </div>
+      </section>
+
+      <section class="calculator-card" id="homeCalculator">
+        <h2><i class="fas fa-calculator"></i> Start Taming</h2>
+        <p>Pick a creature and get food, narcotics, and time estimates instantly.</p>
+        <form class="calc-form" onsubmit="event.preventDefault(); runCalculator('home');">
+          <input type="text" id="calcCreature-home" placeholder="Search creature (e.g. Rex, Quetzal, Enigmasaur)..." required>
+          <select id="calcLevel-home" required>
+            <option value="">Select level...</option>
+            <option value="10">Level 1–10</option>
+            <option value="30">Level 11–50</option>
+            <option value="75">Level 51–100</option>
+            <option value="120">Level 100+</option>
+          </select>
+          <select id="calcServer-home" required>
+            <option value="">Server type...</option>
+            <option value="1">Official · Normal</option>
+            <option value="2">Official · Hardcore</option>
+            <option value="2">Unofficial · x2</option>
+            <option value="5">Unofficial · x5</option>
+          </select>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-play"></i> Calculate</button>
+        </form>
+        <div class="calc-result" id="calcResult-home">
+          <h3><i class="fas fa-check-circle"></i> Taming Estimate</h3>
+          <div class="calc-result-grid" id="calcGrid-home"></div>
+        </div>
+      </section>
+
+      <section class="trust-bar">
+        <div class="trust-stats">
+          <div class="trust-stat"><i class="fas fa-star"></i> <strong>4.9/5</strong> App Store</div>
+          <div class="trust-stat"><i class="fas fa-download"></i> <strong>12M+</strong> downloads</div>
+          <div class="trust-stat"><i class="fas fa-users"></i> <strong>180,000+</strong> raters</div>
+        </div>
+        <div class="trust-quote">
+          “The most comprehensive tool for taming and dinosaur information on Ark to date.”
+          <span>— Mabbdoom, App Store Review</span>
+        </div>
+      </section>
+
+      <h2 class="section-title"><i class="fas fa-dragon"></i> Popular Creatures <span class="count">(click to view details)</span></h2>
+      <div class="creature-grid" id="homeCreatureGrid"></div>
+
+      <div class="flex-between">
+        <h2 class="section-title"><i class="fas fa-lightbulb"></i> Top Player Tips</h2>
+        <button class="btn btn-ghost" onclick="navigate('tips')">View all tips <i class="fas fa-arrow-right"></i></button>
+      </div>
+      <div class="tips-grid" id="homeTipsGrid"></div>
+
+    </section>
+
+    <!-- ================================================================
+         PAGE: CREATURES
+         ================================================================ -->
+    <section id="page-creatures" class="page">
+      <div class="flex-between mb-2">
+        <h1 style="font-size: 2rem; font-weight: 700; color: #fff;">Creature Database</h1>
+        <span style="color: var(--text-muted); font-size: 0.9rem;" id="creatureCount"></span>
+      </div>
+      <div class="filter-bar" id="creatureFilters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="carnivore">Carnivores</button>
+        <button class="filter-btn" data-filter="herbivore">Herbivores</button>
+        <button class="filter-btn" data-filter="omnivore">Omnivores</button>
+        <button class="filter-btn" data-filter="flyer">Flyers</button>
+        <button class="filter-btn" data-filter="utility">Utility</button>
+      </div>
+      <div class="creature-grid" id="allCreatureGrid"></div>
+      <div class="empty-state" id="creatureEmpty" style="display:none;">
+        <i class="fas fa-dragon"></i>
+        <h3>No creatures found</h3>
+        <p>Try a different filter or search term.</p>
       </div>
     </section>
 
-    <!-- ========== CALCULATOR CARD (primary action) ========== -->
-    <section class="calculator-card" id="calculator">
-      <h2><i class="fas fa-calculator"></i> Start Taming</h2>
-      <p>Pick a creature and get food, narcotics, and time estimates instantly.</p>
-      <form class="calc-form" onsubmit="event.preventDefault(); alert('Calculator would load the selected creature here.');">
-        <input type="text" placeholder="Search creature (e.g. Rex, Quetzal, Enigmasaur)..." required>
-        <select required>
-          <option value="">Select level...</option>
-          <option>Level 1–10</option>
-          <option>Level 11–50</option>
-          <option>Level 51–100</option>
-          <option>Level 100+</option>
-        </select>
-        <select required>
-          <option value="">Server type...</option>
-          <option>Official · Normal</option>
-          <option>Official · Hardcore</option>
-          <option>Unofficial · x2</option>
-          <option>Unofficial · x5</option>
-        </select>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-play"></i> Calculate</button>
-      </form>
+    <!-- ================================================================
+         PAGE: CREATURE DETAIL
+         ================================================================ -->
+    <section id="page-detail" class="page">
+      <button class="back-link" onclick="navigate('creatures')"><i class="fas fa-arrow-left"></i> Back to Creatures</button>
+      <div id="detailContent"></div>
     </section>
 
-    <!-- ========== TRUST BAR (compressed social proof) ========== -->
-    <section class="trust-bar">
-      <div class="trust-stats">
-        <div class="trust-stat"><i class="fas fa-star"></i> <strong>4.9/5</strong> App Store</div>
-        <div class="trust-stat"><i class="fas fa-download"></i> <strong>12M+</strong> downloads</div>
-        <div class="trust-stat"><i class="fas fa-users"></i> <strong>180,000+</strong> raters</div>
+    <!-- ================================================================
+         PAGE: TIPS
+         ================================================================ -->
+    <section id="page-tips" class="page">
+      <div class="flex-between mb-2">
+        <h1 style="font-size: 2rem; font-weight: 700; color: #fff;">Player Tips</h1>
+        <span style="color: var(--text-muted); font-size: 0.9rem;" id="tipCount"></span>
       </div>
-      <div class="trust-quote">
-        “The most comprehensive tool for taming and dinosaur information on Ark to date.”
-        <span>— Mabbdoom, App Store Review</span>
+      <div class="filter-bar" id="tipFilters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Taming & KO">Taming &amp; KO</button>
+        <button class="filter-btn" data-filter="Utility">Utility</button>
+        <button class="filter-btn" data-filter="Everything Else">Everything Else</button>
+      </div>
+      <div class="tips-grid" id="allTipsGrid"></div>
+      <div class="empty-state" id="tipEmpty" style="display:none;">
+        <i class="fas fa-lightbulb"></i>
+        <h3>No tips found</h3>
+        <p>Try a different category.</p>
       </div>
     </section>
 
-    <!-- ========== CREATURE GRID ========== -->
-    <h2 class="section-title"><i class="fas fa-dragon"></i> Popular Creatures</h2>
-    <div class="creature-grid">
-      <div class="creature-card">
-        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
-        <div class="creature-name">Enigmasaur</div>
-        <div class="creature-meta">
-          <span><i class="fas fa-bolt"></i> Utility</span>
-          <span><i class="fas fa-egg"></i> Taming</span>
-        </div>
-        <div class="creature-footer">
-          <span><i class="fas fa-lightbulb"></i> 9 tips</span>
-          <span class="badge">New</span>
-        </div>
-      </div>
-      <div class="creature-card">
-        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
-        <div class="creature-name">Rex</div>
-        <div class="creature-meta">
-          <span><i class="fas fa-bolt"></i> Combat</span>
-          <span><i class="fas fa-egg"></i> Taming</span>
-        </div>
-        <div class="creature-footer">
-          <span><i class="fas fa-lightbulb"></i> 420 tips</span>
-        </div>
-      </div>
-      <div class="creature-card">
-        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
-        <div class="creature-name">Quetzal</div>
-        <div class="creature-meta">
-          <span><i class="fas fa-bolt"></i> Flyer</span>
-          <span><i class="fas fa-egg"></i> Taming</span>
-        </div>
-        <div class="creature-footer">
-          <span><i class="fas fa-lightbulb"></i> 310 tips</span>
-        </div>
-      </div>
-      <div class="creature-card">
-        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
-        <div class="creature-name">Giganotosaurus</div>
-        <div class="creature-meta">
-          <span><i class="fas fa-bolt"></i> Combat</span>
-          <span><i class="fas fa-egg"></i> Taming</span>
-        </div>
-        <div class="creature-footer">
-          <span><i class="fas fa-lightbulb"></i> 280 tips</span>
-        </div>
-      </div>
-      <div class="creature-card">
-        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
-        <div class="creature-name">Shadowmane</div>
-        <div class="creature-meta">
-          <span><i class="fas fa-bolt"></i> Combat</span>
-          <span><i class="fas fa-egg"></i> Taming</span>
-        </div>
-        <div class="creature-footer">
-          <span><i class="fas fa-lightbulb"></i> 195 tips</span>
-        </div>
-      </div>
-      <div class="creature-card">
-        <div class="creature-icon"><i class="fas fa-dragon"></i></div>
-        <div class="creature-name">Desmodus</div>
-        <div class="creature-meta">
-          <span><i class="fas fa-bolt"></i> Utility</span>
-          <span><i class="fas fa-egg"></i> Taming</span>
-        </div>
-        <div class="creature-footer">
-          <span><i class="fas fa-lightbulb"></i> 240 tips</span>
-        </div>
-      </div>
-    </div>
+    <!-- ================================================================
+         PAGE: FEATURES
+         ================================================================ -->
+    <section id="page-features" class="page">
+      <h1 style="font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 1.25rem;">Features</h1>
+      <div class="features-grid" id="featuresGrid"></div>
 
-    <!-- ========== TIPS CARD GRID ========== -->
-    <h2 class="section-title" id="tips"><i class="fas fa-lightbulb"></i> Player Tips</h2>
-    <div class="tips-grid">
-      <div class="tip-card">
-        <div class="tip-head">
-          <span class="tip-score">16 points</span>
-          <div class="tip-tags"><span>Utility</span><span>New</span></div>
+      <section class="discord-cta">
+        <div>
+          <h3><i class="fas fa-discord" style="color: var(--accent-orange);"></i> Join the Community</h3>
+          <p>400,000+ player tips, taming strategies, and a thriving Discord of ARK survivors.</p>
         </div>
-        <p>It can only store creatures to change into for approximately 1 hour [60 minutes].</p>
-        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head">
-          <span class="tip-score">15 points</span>
-          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
-        </div>
-        <p>Step-by-Step Taming Process — 1. Locate the Enigmasaur in Disguise. Find a wild Enigmasaur while it is actively mimicking another creature in the wild. 2. Identify the Mimicked…</p>
-        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head">
-          <span class="tip-score">11 points</span>
-          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
-        </div>
-        <p>Since this guy got a TLC the new taming method will be by crafting an apex offering at lvl 96 which is made out of alpha creatures trophies then approach a wild one with the apex offering in your…</p>
-        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head">
-          <span class="tip-score">10 points</span>
-          <div class="tip-tags"><span>Utility</span><span>New</span></div>
-        </div>
-        <p>Baby Enigmasaurs eat chitin, just like Synomacrops.</p>
-        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head">
-          <span class="tip-score">7 points</span>
-          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
-        </div>
-        <p>Highly recommend trapping in circle of gates. It is completely passive if there is no other members of the same species it transforms into even if it becomes a rex it'll be passive. If you…</p>
-        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head">
-          <span class="tip-score">6 points</span>
-          <div class="tip-tags"><span>Taming &amp; KO</span><span>New</span></div>
-        </div>
-        <p>Maps that have fewer species like scorched earth, lost colony and aberration so its pool of species to scan is less.</p>
-        <div class="tip-foot"><span><i class="fas fa-dragon"></i> Enigmasaur</span><span>Report</span></div>
-      </div>
-    </div>
+        <button class="btn btn-primary" onclick="comingSoon('Discord server')"><i class="fas fa-discord"></i> Join Us On Discord</button>
+      </section>
 
-    <!-- ========== FEATURES (promoted) ========== -->
-    <h2 class="section-title" id="features"><i class="fas fa-list-check"></i> Features</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-calculator"></i></div>
-        <div>
-          <h3>Taming Calculator</h3>
-          <p>Knock-out estimates for all creatures in ARK: Survival Ascended and Evolved, including personal weapons list with custom damage.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-skull-crossbones"></i></div>
-        <div>
-          <h3>Chance of Death</h3>
-          <p>Probability that a creature will die rather than KO — a unique Dododex capability.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-stopwatch"></i></div>
-        <div>
-          <h3>Timers</h3>
-          <p>Starve timer and torpor timers, so you know exactly when to act.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-        <div>
-          <h3>Stats &amp; Rankings</h3>
-          <p>Creature stats, stat calculator, and stat rankings.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-star-half-alt"></i></div>
-        <div>
-          <h3>Gathering Efficiency</h3>
-          <p>Drops and weight reduction based on 2,600,000+ ratings from 180,000+ users.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-egg"></i></div>
-        <div>
-          <h3>Kibble &amp; Breeding</h3>
-          <p>Kibble recipes and chart, breeding times, and egg incubation temperatures.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-comments"></i></div>
-        <div>
-          <h3>Player Tips</h3>
-          <p>Strategy and taming tips from tens of thousands of ARK players.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-sliders-h"></i></div>
-        <div>
-          <h3>Server Multipliers</h3>
-          <p>Multipliers for unofficial servers, saddle details and crafting ingredients.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fas fa-dove"></i></div>
-        <div>
-          <h3>Flyers &amp; Traps</h3>
-          <p>List of flyers that can pick up each creature, traps, snares, and more.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== DISCORD CTA ========== -->
-    <section class="discord-cta">
-      <div>
-        <h3><i class="fas fa-discord" style="color: var(--accent-orange);"></i> Join the Community</h3>
-        <p>400,000+ player tips, taming strategies, and a thriving Discord of ARK survivors.</p>
-      </div>
-      <a href="#" class="btn btn-primary"><i class="fas fa-discord"></i> Join Us On Discord</a>
+      <section class="about-panel">
+        <h2>What's an ARK taming calculator?</h2>
+        <p>A taming calculator lets you estimate how much food, narcotics, and time will be required to tame a creature in ARK: Survival Evolved.</p>
+      </section>
     </section>
 
-    <!-- ========== ABOUT ========== -->
-    <section class="about-panel">
-      <h2>What's an ARK taming calculator?</h2>
-      <p>A taming calculator lets you estimate how much food, narcotics, and time will be required to tame a creature in ARK: Survival Evolved.</p>
+    <!-- ================================================================
+         PAGE: TOOLS
+         ================================================================ -->
+    <section id="page-tools" class="page">
+      <h1 style="font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem;">Tools</h1>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Companion utilities for ARK survivors. Some tools are still in development.</p>
+      <div class="features-grid" id="toolsGrid"></div>
+
+      <section class="about-panel">
+        <h2><i class="fas fa-info-circle" style="color: var(--accent-teal);"></i> About Dododex Tools</h2>
+        <p>Dododex is the ARK taming calculator and companion app used by over 12 million players. Tools marked "Coming Soon" are in active development. Check back regularly for updates.</p>
+      </section>
     </section>
 
-    <!-- ========== FOOTER ========== -->
+    <!-- ================================================================
+         FOOTER
+         ================================================================ -->
     <footer class="site-footer">
       <div>
-        <a href="#calculator">Calculator</a>
-        <a href="#tips">Tips</a>
-        <a href="#features">Features</a>
-        <a href="#">App Store</a>
-        <a href="#">Google Play</a>
-        <a href="#">Discord</a>
+        <a onclick="navigate('home')">Home</a>
+        <a onclick="navigate('creatures')">Creatures</a>
+        <a onclick="navigate('tips')">Tips</a>
+        <a onclick="navigate('features')">Features</a>
+        <a onclick="navigate('tools')">Tools</a>
       </div>
       <div>© 2025 Dododex · The ARK taming calculator and companion app</div>
     </footer>
@@ -969,19 +1157,713 @@
     <i class="fas fa-arrow-up"></i>
   </button>
 
+  <!-- ========== TOAST CONTAINER ========== -->
+  <div class="toast-container" id="toastContainer"></div>
+
   <script>
-    // Back-to-top visibility
+    /* ============================================================
+       DATA
+       ============================================================ */
+
+    const CREATURES = [
+      {
+        id: 'enigmasaur',
+        name: 'Enigmasaur',
+        icon: 'fa-dragon',
+        diet: 'omnivore',
+        category: 'utility',
+        tags: ['Utility', 'Taming', 'New'],
+        tips: 9,
+        isNew: true,
+        description: 'A mysterious creature that mimics other species. Requires an apex offering crafted from alpha trophies to tame at level 96+.',
+        stats: {
+          health: 1200,
+          stamina: 600,
+          oxygen: 200,
+          food: 1800,
+          weight: 450,
+          torpor: 1500
+        },
+        tameTime: '45–90 min',
+        food: 'Alpha trophies, chitin',
+        narcotics: '120–180'
+      },
+      {
+        id: 'rex',
+        name: 'Rex',
+        icon: 'fa-dragon',
+        diet: 'carnivore',
+        category: 'carnivore',
+        tags: ['Combat', 'Taming'],
+        tips: 420,
+        isNew: false,
+        description: 'The undisputed king of the ARK food chain. A powerful carnivore with high health and damage. Tame with prime meat or kibble.',
+        stats: {
+          health: 1100,
+          stamina: 420,
+          oxygen: 150,
+          food: 3000,
+          weight: 500,
+          torpor: 1200
+        },
+        tameTime: '2–4 hours',
+        food: 'Prime meat, kibble',
+        narcotics: '300–500'
+      },
+      {
+        id: 'quetzal',
+        name: 'Quetzal',
+        icon: 'fa-dragon',
+        diet: 'herbivore',
+        category: 'flyer',
+        tags: ['Flyer', 'Taming'],
+        tips: 310,
+        isNew: false,
+        description: 'A massive flying herbivore that can carry heavy loads. Taming requires a platform saddle and a lot of patience.',
+        stats: {
+          health: 1200,
+          stamina: 750,
+          oxygen: 300,
+          food: 2400,
+          weight: 800,
+          torpor: 900
+        },
+        tameTime: '3–5 hours',
+        food: 'Kibble, crops',
+        narcotics: '400–700'
+      },
+      {
+        id: 'giganotosaurus',
+        name: 'Giganotosaurus',
+        icon: 'fa-dragon',
+        diet: 'carnivore',
+        category: 'carnivore',
+        tags: ['Combat', 'Taming'],
+        tips: 280,
+        isNew: false,
+        description: 'A massive carnivore that can enrage and deal devastating damage. Extremely dangerous to tame.',
+        stats: {
+          health: 1500,
+          stamina: 500,
+          oxygen: 200,
+          food: 3500,
+          weight: 700,
+          torpor: 2000
+        },
+        tameTime: '4–6 hours',
+        food: 'Prime meat',
+        narcotics: '600–1000'
+      },
+      {
+        id: 'shadowmane',
+        name: 'Shadowmane',
+        icon: 'fa-dragon',
+        diet: 'carnivore',
+        category: 'carnivore',
+        tags: ['Combat', 'Taming'],
+        tips: 195,
+        isNew: false,
+        description: 'A stealthy feline predator with cloaking abilities. Tame with fish meat and a lot of patience.',
+        stats: {
+          health: 900,
+          stamina: 600,
+          oxygen: 250,
+          food: 2000,
+          weight: 400,
+          torpor: 1000
+        },
+        tameTime: '1–2 hours',
+        food: 'Fish meat',
+        narcotics: '200–350'
+      },
+      {
+        id: 'desmodus',
+        name: 'Desmodus',
+        icon: 'fa-dragon',
+        diet: 'carnivore',
+        category: 'flyer',
+        tags: ['Utility', 'Taming'],
+        tips: 240,
+        isNew: false,
+        description: 'A nocturnal flying predator with blood-draining abilities. Useful for scouting and night travel.',
+        stats: {
+          health: 800,
+          stamina: 550,
+          oxygen: 200,
+          food: 1500,
+          weight: 350,
+          torpor: 850
+        },
+        tameTime: '1–2 hours',
+        food: 'Blood packs',
+        narcotics: '150–250'
+      },
+      {
+        id: 'trike',
+        name: 'Triceratops',
+        icon: 'fa-dragon',
+        diet: 'herbivore',
+        category: 'herbivore',
+        tags: ['Gathering', 'Taming'],
+        tips: 380,
+        isNew: false,
+        description: 'A reliable early-game herbivore. Great for gathering berries and protecting your base.',
+        stats: {
+          health: 600,
+          stamina: 300,
+          oxygen: 150,
+          food: 1200,
+          weight: 250,
+          torpor: 600
+        },
+        tameTime: '30–60 min',
+        food: 'Berries, crops',
+        narcotics: '50–100'
+      },
+      {
+        id: 'argentavis',
+        name: 'Argentavis',
+        icon: 'fa-dragon',
+        diet: 'carnivore',
+        category: 'flyer',
+        tags: ['Flyer', 'Utility', 'Taming'],
+        tips: 290,
+        isNew: false,
+        description: 'A large flying carnivore that can carry creatures and resources. A staple for mid-game travel.',
+        stats: {
+          health: 700,
+          stamina: 650,
+          oxygen: 250,
+          food: 1800,
+          weight: 600,
+          torpor: 750
+        },
+        tameTime: '1–2 hours',
+        food: 'Prime meat, kibble',
+        narcotics: '200–350'
+      },
+      {
+        id: 'doedicurus',
+        name: 'Doedicurus',
+        icon: 'fa-dragon',
+        diet: 'herbivore',
+        category: 'herbivore',
+        tags: ['Gathering', 'Taming'],
+        tips: 210,
+        isNew: false,
+        description: 'A rolling herbivore perfect for gathering stone and flint. Rolls into a ball for defense.',
+        stats: {
+          health: 500,
+          stamina: 250,
+          oxygen: 100,
+          food: 1000,
+          weight: 300,
+          torpor: 500
+        },
+        tameTime: '30–60 min',
+        food: 'Berries, crops',
+        narcotics: '50–90'
+      }
+    ];
+
+    const TIPS = [
+      { id: 1, creature: 'Enigmasaur', score: 16, category: 'Utility', isNew: true,
+        text: 'It can only store creatures to change into for approximately 1 hour [60 minutes].' },
+      { id: 2, creature: 'Enigmasaur', score: 15, category: 'Taming & KO', isNew: true,
+        text: 'Step-by-Step Taming Process — 1. Locate the Enigmasaur in Disguise. Find a wild Enigmasaur while it is actively mimicking another creature in the wild. 2. Identify the Mimicked…' },
+      { id: 3, creature: 'Enigmasaur', score: 11, category: 'Taming & KO', isNew: true,
+        text: 'Since this guy got a TLC the new taming method will be by crafting an apex offering at lvl 96 which is made out of alpha creatures trophies then approach a wild one with the apex offering in your…' },
+      { id: 4, creature: 'Enigmasaur', score: 10, category: 'Utility', isNew: true,
+        text: 'Baby Enigmasaurs eat chitin, just like Synomacrops.' },
+      { id: 5, creature: 'Enigmasaur', score: 7, category: 'Taming & KO', isNew: true,
+        text: 'Highly recommend trapping in circle of gates. It is completely passive if there is no other members of the same species it transforms into even if it becomes a rex it will be passive. If you…' },
+      { id: 6, creature: 'Enigmasaur', score: 6, category: 'Taming & KO', isNew: true,
+        text: 'Maps that have fewer species like scorched earth, lost colony and aberration so its pool of species to scan is less.' },
+      { id: 7, creature: 'Enigmasaur', score: 4, category: 'Everything Else', isNew: true,
+        text: 'Yep he is fire af love its design.' },
+      { id: 8, creature: 'Rex', score: 42, category: 'Taming & KO', isNew: false,
+        text: 'Use a trap made of stone doorways. Four doorways in a square works well. Lead the Rex into the trap and then knock it out from a safe position above.' },
+      { id: 9, creature: 'Rex', score: 28, category: 'Utility', isNew: false,
+        text: 'A high-level Rex is the best all-around combat mount for early-to-mid game. Prioritize melee damage and health when leveling.' },
+      { id: 10, creature: 'Quetzal', score: 35, category: 'Taming & KO', isNew: false,
+        text: 'You need a second player on a flying mount to whistle the Quetzal into a trap, or use a platform saddle with a grappling hook. Solo taming is extremely difficult.' },
+      { id: 11, creature: 'Argentavis', score: 31, category: 'Utility', isNew: false,
+        text: 'The Argentavis is arguably the best all-round flyer in the game. High weight, good stamina, and can carry most creatures. Tame one as soon as possible.' },
+      { id: 12, creature: 'Triceratops', score: 22, category: 'Taming & KO', isNew: false,
+        text: 'For a low-level Trike, use a slingshot or tranq arrows. Aim for the body, not the head — headshots deal extra damage and may kill it.' },
+      { id: 13, creature: 'Giganotosaurus', score: 18, category: 'Taming & KO', isNew: false,
+        text: 'Never try to tame a Giga with melee weapons. Use a trap and tranq darts from a safe distance. The Giga can enrage and destroy your trap if you take too long.' },
+      { id: 14, creature: 'Desmodus', score: 12, category: 'Everything Else', isNew: false,
+        text: 'The Desmodus is one of the best night flyers in the game. Its blood-draining ability makes it a great support mount for extended expeditions.' },
+      { id: 15, creature: 'Shadowmane', score: 9, category: 'Utility', isNew: false,
+        text: 'Shadowmanes can cloak themselves and other creatures. Useful for scouting and escaping dangerous situations. Tame with fish meat.' }
+    ];
+
+    const FEATURES = [
+      { icon: 'fa-calculator', title: 'Taming Calculator', desc: 'Knock-out estimates for all creatures in ARK: Survival Ascended and Evolved, including personal weapons list with custom damage.' },
+      { icon: 'fa-skull-crossbones', title: 'Chance of Death', desc: 'Probability that a creature will die rather than KO — a unique Dododex capability.' },
+      { icon: 'fa-stopwatch', title: 'Timers', desc: 'Starve timer and torpor timers, so you know exactly when to act.' },
+      { icon: 'fa-chart-line', title: 'Stats & Rankings', desc: 'Creature stats, stat calculator, and stat rankings.' },
+      { icon: 'fa-star-half-alt', title: 'Gathering Efficiency', desc: 'Drops and weight reduction based on 2,600,000+ ratings from 180,000+ users.' },
+      { icon: 'fa-egg', title: 'Kibble & Breeding', desc: 'Kibble recipes and chart, breeding times, and egg incubation temperatures.' },
+      { icon: 'fa-comments', title: 'Player Tips', desc: 'Strategy and taming tips from tens of thousands of ARK players.' },
+      { icon: 'fa-sliders-h', title: 'Server Multipliers', desc: 'Multipliers for unofficial servers, saddle details and crafting ingredients.' },
+      { icon: 'fa-dove', title: 'Flyers & Traps', desc: 'List of flyers that can pick up each creature, traps, snares, and more.' }
+    ];
+
+    const TOOLS = [
+      { icon: 'fa-calculator', title: 'Taming Calculator', desc: 'Full taming estimates with food, narcotics, and time — available on the Home page.', available: true },
+      { icon: 'fa-skull-crossbones', title: 'Chance of Death', desc: 'Calculate the probability a creature dies rather than KOs during taming.', available: false },
+      { icon: 'fa-stopwatch', title: 'Torpor Timer', desc: 'Live torpor countdown with narcotic scheduling.', available: false },
+      { icon: 'fa-egg', title: 'Kibble Chart', desc: 'Full kibble recipe lookup by creature and tier.', available: false },
+      { icon: 'fa-map', title: 'Server Multipliers', desc: 'Look up multipliers for unofficial servers.', available: false },
+      { icon: 'fa-chart-bar', title: 'Stat Calculator', desc: 'Calculate creature stats at any level with point distribution.', available: false }
+    ];
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+
+    let currentPage = 'home';
+
+    function navigate(page, creatureId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+      // Show target page
+      const target = document.getElementById('page-' + page);
+      if (target) target.classList.add('active');
+
+      // Update nav active state
+      document.querySelectorAll('.top-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.nav === page);
+      });
+
+      currentPage = page;
+
+      // Page-specific rendering
+      if (page === 'creatures') renderCreatureGrid();
+      if (page === 'tips') renderTipGrid();
+      if (page === 'features') renderFeatures();
+      if (page === 'tools') renderTools();
+      if (page === 'detail' && creatureId) renderDetail(creatureId);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ============================================================
+       RENDERING: CREATURES
+       ============================================================ */
+
+    let creatureFilter = 'all';
+
+    function renderCreatureCard(creature) {
+      const isNew = creature.isNew ? '<span class="badge">New</span>' : '';
+      return `
+        <button class="creature-card" onclick="navigate('detail', '${creature.id}')">
+          <div class="creature-icon"><i class="fas ${creature.icon}"></i></div>
+          <div class="creature-name">${creature.name}</div>
+          <div class="creature-meta">
+            <span><i class="fas fa-utensils"></i> ${creature.diet}</span>
+            <span><i class="fas fa-tag"></i> ${creature.category}</span>
+          </div>
+          <div class="creature-footer">
+            <span><i class="fas fa-lightbulb"></i> ${creature.tips} tips</span>
+            ${isNew}
+          </div>
+        </button>
+      `;
+    }
+
+    function renderHomeCreatures() {
+      const grid = document.getElementById('homeCreatureGrid');
+      const popular = CREATURES.slice(0, 6);
+      grid.innerHTML = popular.map(renderCreatureCard).join('');
+    }
+
+    function renderCreatureGrid() {
+      const grid = document.getElementById('allCreatureGrid');
+      const empty = document.getElementById('creatureEmpty');
+      const count = document.getElementById('creatureCount');
+
+      const searchTerm = (document.getElementById('globalSearch').value || '').toLowerCase().trim();
+
+      let filtered = CREATURES.filter(c => {
+        const matchesFilter = creatureFilter === 'all' || c.category === creatureFilter;
+        const matchesSearch = !searchTerm || c.name.toLowerCase().includes(searchTerm);
+        return matchesFilter && matchesSearch;
+      });
+
+      count.textContent = `Showing ${filtered.length} of ${CREATURES.length} creatures`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+      } else {
+        empty.style.display = 'none';
+        grid.innerHTML = filtered.map(renderCreatureCard).join('');
+      }
+    }
+
+    document.querySelectorAll('#creatureFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#creatureFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        creatureFilter = btn.dataset.filter;
+        renderCreatureGrid();
+      });
+    });
+
+    /* ============================================================
+       RENDERING: CREATURE DETAIL
+       ============================================================ */
+
+    function renderDetail(creatureId) {
+      const creature = CREATURES.find(c => c.id === creatureId);
+      const container = document.getElementById('detailContent');
+
+      if (!creature) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-dragon"></i>
+            <h3>Creature not found</h3>
+            <p>This creature may not exist in our database yet.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const creatureTips = TIPS.filter(t => t.creature === creature.name);
+
+      container.innerHTML = `
+        <div class="detail-layout">
+          <div class="detail-main">
+            <h1>${creature.name}</h1>
+            <div class="detail-tags">
+              ${creature.tags.map(t => `<span>${t}</span>`).join('')}
+            </div>
+            <p>${creature.description}</p>
+
+            <h3 style="color: var(--accent-orange); margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Base Stats (Level 1)</h3>
+            <table class="stat-table">
+              <thead>
+                <tr>
+                  <th>Stat</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Health</td><td>${creature.stats.health}</td></tr>
+                <tr><td>Stamina</td><td>${creature.stats.stamina}</td></tr>
+                <tr><td>Oxygen</td><td>${creature.stats.oxygen}</td></tr>
+                <tr><td>Food</td><td>${creature.stats.food}</td></tr>
+                <tr><td>Weight</td><td>${creature.stats.weight}</td></tr>
+                <tr><td>Torpor</td><td>${creature.stats.torpor}</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="color: var(--accent-orange); margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Taming Info</h3>
+            <p><strong>Preferred Food:</strong> ${creature.food}</p>
+            <p><strong>Estimated Time:</strong> ${creature.tameTime}</p>
+            <p><strong>Narcotics Needed:</strong> ${creature.narcotics}</p>
+
+            ${creatureTips.length > 0 ? `
+              <h3 style="color: var(--accent-orange); margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Community Tips</h3>
+              <div class="tips-grid">
+                ${creatureTips.map(t => renderTipCard(t)).join('')}
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="detail-side">
+            <h3><i class="fas fa-calculator"></i> Quick Calculator</h3>
+            <form onsubmit="event.preventDefault(); runCalculator('detail');" style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <input type="hidden" id="calcCreature-detail" value="${creature.name}">
+              <select id="calcLevel-detail" required style="background: #12161b; border: 1px solid var(--border-dim); border-radius: 40px; padding: 0.7rem 1rem; color: var(--text-primary); font-size: 0.9rem; outline: none;">
+                <option value="">Select level...</option>
+                <option value="10">Level 1–10</option>
+                <option value="30">Level 11–50</option>
+                <option value="75">Level 51–100</option>
+                <option value="120">Level 100+</option>
+              </select>
+              <select id="calcServer-detail" required style="background: #12161b; border: 1px solid var(--border-dim); border-radius: 40px; padding: 0.7rem 1rem; color: var(--text-primary); font-size: 0.9rem; outline: none;">
+                <option value="">Server type...</option>
+                <option value="1">Official · Normal</option>
+                <option value="2">Official · Hardcore</option>
+                <option value="2">Unofficial · x2</option>
+                <option value="5">Unofficial · x5</option>
+              </select>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-play"></i> Calculate</button>
+            </form>
+            <div class="calc-result" id="calcResult-detail" style="margin-top: 1rem;">
+              <h3><i class="fas fa-check-circle"></i> Estimate</h3>
+              <div class="calc-result-grid" id="calcGrid-detail"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ============================================================
+       RENDERING: TIPS
+       ============================================================ */
+
+    let tipFilter = 'all';
+
+    function renderTipCard(tip) {
+      const voted = localStorage.getItem('tipVote_' + tip.id) === '1';
+      return `
+        <div class="tip-card" data-tip-id="${tip.id}">
+          <div class="tip-head">
+            <span class="tip-score">${tip.score} points</span>
+            <div class="tip-tags">
+              <span>${tip.category}</span>
+              ${tip.isNew ? '<span>New</span>' : ''}
+            </div>
+          </div>
+          <p>${tip.text}</p>
+          <div class="tip-foot">
+            <span><i class="fas fa-dragon"></i> ${tip.creature}</span>
+            <button class="tip-vote ${voted ? 'voted' : ''}" onclick="voteTip(${tip.id}, this)">
+              <i class="fas fa-arrow-up"></i> <span>${voted ? 'Voted' : 'Vote'}</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderHomeTips() {
+      const grid = document.getElementById('homeTipsGrid');
+      const top = [...TIPS].sort((a, b) => b.score - a.score).slice(0, 4);
+      grid.innerHTML = top.map(renderTipCard).join('');
+    }
+
+    function renderTipGrid() {
+      const grid = document.getElementById('allTipsGrid');
+      const empty = document.getElementById('tipEmpty');
+      const count = document.getElementById('tipCount');
+
+      let filtered = TIPS.filter(t => tipFilter === 'all' || t.category === tipFilter);
+
+      count.textContent = `Showing ${filtered.length} of ${TIPS.length} tips`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+      } else {
+        empty.style.display = 'none';
+        grid.innerHTML = filtered.map(renderTipCard).join('');
+      }
+    }
+
+    document.querySelectorAll('#tipFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#tipFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        tipFilter = btn.dataset.filter;
+        renderTipGrid();
+      });
+    });
+
+    function voteTip(tipId, btn) {
+      const key = 'tipVote_' + tipId;
+      const card = btn.closest('.tip-card');
+      const scoreEl = card.querySelector('.tip-score');
+      let score = parseInt(scoreEl.textContent);
+
+      if (localStorage.getItem(key) === '1') {
+        localStorage.removeItem(key);
+        score -= 1;
+        btn.classList.remove('voted');
+        btn.innerHTML = '<i class="fas fa-arrow-up"></i> <span>Vote</span>';
+      } else {
+        localStorage.setItem(key, '1');
+        score += 1;
+        btn.classList.add('voted');
+        btn.innerHTML = '<i class="fas fa-arrow-up"></i> <span>Voted</span>';
+      }
+
+      scoreEl.textContent = score + ' points';
+
+      // Update the underlying data
+      const tip = TIPS.find(t => t.id === tipId);
+      if (tip) tip.score = score;
+    }
+
+    /* ============================================================
+       RENDERING: FEATURES & TOOLS
+       ============================================================ */
+
+    function renderFeatures() {
+      const grid = document.getElementById('featuresGrid');
+      grid.innerHTML = FEATURES.map(f => `
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas ${f.icon}"></i></div>
+          <div>
+            <h3>${f.title}</h3>
+            <p>${f.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTools() {
+      const grid = document.getElementById('toolsGrid');
+      grid.innerHTML = TOOLS.map(t => `
+        <div class="feature-card" style="cursor: pointer;" onclick="${t.available ? `navigate('home')` : `comingSoon('${t.title}')`}">
+          <div class="feature-icon"><i class="fas ${t.icon}"></i></div>
+          <div>
+            <h3>${t.title} ${t.available ? '' : '<span style="font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase; letter-spacing: 1px; margin-left: 0.4rem;">Coming Soon</span>'}</h3>
+            <p>${t.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ============================================================
+       CALCULATOR
+       ============================================================ */
+
+    function runCalculator(context) {
+      const creatureInput = document.getElementById('calcCreature-' + context);
+      const levelSelect = document.getElementById('calcLevel-' + context);
+      const serverSelect = document.getElementById('calcServer-' + context);
+
+      const creatureName = creatureInput.value.trim();
+      const level = parseInt(levelSelect.value) || 30;
+      const multiplier = parseInt(serverSelect.value) || 1;
+
+      if (!creatureName) {
+        showToast('Please enter or select a creature.');
+        return;
+      }
+
+      const creature = CREATURES.find(c => c.name.toLowerCase() === creatureName.toLowerCase());
+
+      if (!creature) {
+        showToast(`"${creatureName}" is not yet in our database. Full calculator coming soon!`);
+        return;
+      }
+
+      if (!levelSelect.value || !serverSelect.value) {
+        showToast('Please select a level range and server type.');
+        return;
+      }
+
+      // Simple taming math based on creature stats and multiplier
+      const baseFood = creature.stats.food;
+      const baseTorpor = creature.stats.torpor;
+      const baseTime = 30 + (creature.stats.health / 50);
+
+      const foodNeeded = Math.round((baseFood * 0.15) / multiplier);
+      const narcoticsNeeded = Math.round((baseTorpor * 0.25) / multiplier);
+      const timeMinutes = Math.round((baseTime * 1.5) / multiplier);
+
+      const grid = document.getElementById('calcGrid-' + context);
+      const result = document.getElementById('calcResult-' + context);
+
+      grid.innerHTML = `
+        <div class="calc-result-item">
+          <div class="label">Creature</div>
+          <div class="value" style="font-size: 1rem;">${creature.name}</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="label">Food Needed</div>
+          <div class="value">${foodNeeded}</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="label">Narcotics</div>
+          <div class="value">${narcoticsNeeded}</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="label">Est. Time</div>
+          <div class="value">${timeMinutes} min</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="label">Chance of Death</div>
+          <div class="value" style="color: var(--accent-red);">${Math.round(creature.stats.torpor / 100)}%</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="label">Preferred Food</div>
+          <div class="value" style="font-size: 0.85rem;">${creature.food}</div>
+        </div>
+      `;
+
+      result.classList.add('visible');
+    }
+
+    /* ============================================================
+       GLOBAL SEARCH
+       ============================================================ */
+
+    function doGlobalSearch() {
+      const term = document.getElementById('globalSearch').value.trim();
+      if (!term) {
+        showToast('Please enter a search term.');
+        return;
+      }
+
+      const creature = CREATURES.find(c => c.name.toLowerCase().includes(term.toLowerCase()));
+
+      if (creature) {
+        navigate('detail', creature.id);
+      } else {
+        navigate('creatures');
+        setTimeout(() => {
+          renderCreatureGrid();
+          if (document.querySelectorAll('#allCreatureGrid .creature-card').length === 0) {
+            showToast(`No creatures match "${term}". Try a different search.`);
+          }
+        }, 100);
+      }
+    }
+
+    document.getElementById('globalSearch').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') doGlobalSearch();
+    });
+
+    /* ============================================================
+       COMING SOON / TOAST
+       ============================================================ */
+
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<i class="fas fa-clock"></i> ${message}`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(12px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    function comingSoon(feature) {
+      showToast(`${feature} is coming soon! We're working on it.`);
+    }
+
+    /* ============================================================
+       BACK TO TOP
+       ============================================================ */
+
     const backToTop = document.getElementById('backToTop');
     window.addEventListener('scroll', function () {
-      if (window.scrollY > 400) {
-        backToTop.classList.add('visible');
-      } else {
-        backToTop.classList.remove('visible');
-      }
+      backToTop.classList.toggle('visible', window.scrollY > 400);
     });
     backToTop.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+
+    renderHomeCreatures();
+    renderHomeTips();
+    navigate('home');
   </script>
 </body>
 </html>
